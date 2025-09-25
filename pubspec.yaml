@@ -36,13 +36,15 @@ dependencies:
   cupertino_icons: ^1.0.8
   carousel_slider:
   google_maps_flutter:
-  flutter_polyline_points:
   firebase_core:
   firebase_auth:
   cloud_firestore:
   google_sign_in:
   date_picker_timeline:
   provider: 
+  flutter_bloc: 
+  equatable: 
+  dartz: 
   smooth_page_indicator: ^1.2.1
   iconsax: ^0.0.8
   font_awesome_flutter: ^10.9.1
@@ -51,6 +53,10 @@ dependencies:
   awesome_bottom_bar: ^1.2.4
   google_nav_bar: ^5.0.7
   shared_preferences: 
+  dio: 
+  get_it: 
+  logger: 
+  
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:salon_app/common/helper/app_navigation.dart';
 import 'package:salon_app/core/config/widgets/custom_appbar_wdt.dart';
+import 'package:salon_app/core/usecases/usecase.dart';
+import 'package:salon_app/domain/auth/usecases/logout_usecase.dart';
+import 'package:salon_app/presentaion/auth/screens/login_screen.dart';
+import 'package:salon_app/service_locator.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -89,7 +94,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
             _buildProfileOption(
               icon: Icons.logout_outlined,
               title: 'Logout',
-              onTap: () {},
+              onTap: () async {
+                final result = await sl<LogoutUseCase>().call();
+                result.fold(
+                  (error) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(error)),
+                    );
+                  },
+                  (_) {
+Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginScreen()), (route) => false);
+                  },
+                );
+              },
               textColor: Colors.red,
               trailing: Container(width: 1,)
             ),

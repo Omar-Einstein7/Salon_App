@@ -268,61 +268,54 @@ class _DetailsScreenState extends State<DetailsScreen> {
                      {'name': 'Royal Package', 'price': 199},
                       {'name': 'Royal Package', 'price': 199},
                   ];
-                  return Card(
-                    elevation: 4,
+                  return CustomContainerWdt(
                     margin: const EdgeInsets.only(bottom: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: CustomContainerWdt(
-                     
-                      child: Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  packages[index]['name'] as String,
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                packages[index]['name'] as String,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: 6,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context).colorScheme.primary,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Text(
-                                    '\$${packages[index]['price']}',
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 16),
-                            const Text(
-                              '• Premium Haircut\n• Professional Styling\n• Deep Treatment\n• Head Massage\n• Free Consultation',
-                              style: TextStyle(
-                                fontSize: 16,
-                                height: 1.5,
                               ),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 6,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Text(
+                                  '\$${packages[index]['price']}',
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          const Text(
+                            '• Premium Haircut\n• Professional Styling\n• Deep Treatment\n• Head Massage\n• Free Consultation',
+                            style: TextStyle(
+                              fontSize: 16,
+                              height: 1.5,
                             ),
-                            const SizedBox(height: 16),
-                           CustomButton(txt: "Book Now")
-                          ],
-                        ),
+                          ),
+                          const SizedBox(height: 16),
+                         CustomButton(txt: "Book Now")
+                        ],
                       ),
                     ),
                   );

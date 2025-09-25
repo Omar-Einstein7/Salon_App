@@ -1,10 +1,16 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart' show Iconify;
 
-import 'package:colorful_iconify_flutter/icons/flat_color_icons.dart'; 
+import 'package:colorful_iconify_flutter/icons/flat_color_icons.dart';
 import 'package:colorful_iconify_flutter/icons/logos.dart';
 import 'package:salon_app/core/config/widgets/custom_button.dart';
+import 'package:salon_app/data/auth/model/signin.dart';
+import 'package:salon_app/domain/auth/usecases/signin.dart';
 import 'package:salon_app/presentaion/auth/screens/signup_screen.dart';
+import 'package:salon_app/presentaion/home/screens/body_screen.dart';
+import 'package:salon_app/service_locator.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,8 +21,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   bool _obscureText = true;
   bool _rememberMe = false;
 
@@ -32,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 40),
-               const Text(
+                const Text(
                   'login to your\nAccount',
                   style: TextStyle(
                     fontSize: 40,
@@ -47,28 +53,34 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: _emailController,
                   decoration: InputDecoration(
                     labelText: 'Email',
-                    prefixIcon: Icon(Icons.email_outlined, 
-                      color: Theme.of(context).colorScheme.primary),
+                    prefixIcon: Icon(
+                      Icons.email_outlined,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.outline),
+                        color: Theme.of(context).colorScheme.outline,
+                      ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.outline),
+                        color: Theme.of(context).colorScheme.outline,
+                      ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.primary, 
-                        width: 2),
+                        color: Theme.of(context).colorScheme.primary,
+                        width: 2,
+                      ),
                     ),
                     filled: true,
                     fillColor: Theme.of(context).colorScheme.surfaceVariant,
                     labelStyle: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface),
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -86,8 +98,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   obscureText: _obscureText,
                   decoration: InputDecoration(
                     labelText: 'Password',
-                    prefixIcon: Icon(Icons.lock_outline,
-                      color: Theme.of(context).colorScheme.primary),
+                    prefixIcon: Icon(
+                      Icons.lock_outline,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _obscureText ? Icons.visibility_off : Icons.visibility,
@@ -102,23 +116,27 @@ class _LoginScreenState extends State<LoginScreen> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.outline),
+                        color: Theme.of(context).colorScheme.outline,
+                      ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.outline),
+                        color: Theme.of(context).colorScheme.outline,
+                      ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.primary, 
-                        width: 2),
+                        color: Theme.of(context).colorScheme.primary,
+                        width: 2,
+                      ),
                     ),
                     filled: true,
                     fillColor: Theme.of(context).colorScheme.surfaceVariant,
                     labelStyle: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface),
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -144,10 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(4),
                       ),
-                      side: const BorderSide(
-                        color: Colors.orange,
-                        width: 2,
-                      ),
+                      side: const BorderSide(color: Colors.orange, width: 2),
                     ),
                     const Text('Remember me'),
                   ],
@@ -155,9 +170,59 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 24),
                 CustomButton(
                   txt: 'Sign In',
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Handle sign in
+                  onPressed: () async {
+                    if (!_formKey.currentState!.validate()) {
+                      return;
+                    }
+                    try {
+                      final result = await sl<SigninUseCase>().call(
+                        params: SigninReqParams(
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                        ),
+                      );
+                      
+                      result.fold(
+                        (error) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(error.toString()),
+                              backgroundColor: Colors.red,
+                              behavior: SnackBarBehavior.floating,
+                              margin: EdgeInsets.all(16),
+                            ),
+                          );
+                        },
+                        (success) {
+                          // Show success message
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Login successful!'),
+                              backgroundColor: Colors.green,
+                              behavior: SnackBarBehavior.floating,
+                              margin: EdgeInsets.all(16),
+                            ),
+                          );
+                          
+                          // Navigate to home screen and remove all previous routes
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const BodyScreen(),
+                            ),
+                            (route) => false,
+                          );
+                        },
+                      );
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('An unexpected error occurred'),
+                          backgroundColor: Colors.red,
+                          behavior: SnackBarBehavior.floating,
+                          margin: EdgeInsets.all(16),
+                        ),
+                      );
                     }
                   },
                 ),
@@ -191,7 +256,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: Theme.of(context).shadowColor.withOpacity(0.2),
+                            color: Theme.of(
+                              context,
+                            ).shadowColor.withOpacity(0.2),
                             spreadRadius: 0,
                             blurRadius: 10,
                             offset: const Offset(0, 4),
@@ -214,7 +281,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: Theme.of(context).shadowColor.withOpacity(0.2),
+                            color: Theme.of(
+                              context,
+                            ).shadowColor.withOpacity(0.2),
                             spreadRadius: 0,
                             blurRadius: 10,
                             offset: const Offset(0, 4),
@@ -225,7 +294,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () {
                           // Handle Apple sign in
                         },
-                        icon: Iconify(Logos.apple, size: 30, color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black),
+                        icon: Iconify(
+                          Logos.apple,
+                          size: 30,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white
+                              : Colors.black,
+                        ),
                         padding: const EdgeInsets.all(12),
                       ),
                     ),
@@ -237,7 +312,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: Theme.of(context).shadowColor.withOpacity(0.2),
+                            color: Theme.of(
+                              context,
+                            ).shadowColor.withOpacity(0.2),
                             spreadRadius: 0,
                             blurRadius: 10,
                             offset: const Offset(0, 4),
@@ -261,9 +338,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     const Text("Don't have an account?"),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_){
-                          return SignupScreen();
-                        }));
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) {
+                              return SignupScreen();
+                            },
+                          ),
+                        );
                       },
                       child: const Text('Sign Up'),
                     ),

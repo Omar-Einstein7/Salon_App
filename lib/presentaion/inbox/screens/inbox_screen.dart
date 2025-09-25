@@ -5,6 +5,7 @@ import 'package:salon_app/presentaion/inbox/screens/call_screen.dart';
 import 'package:salon_app/presentaion/inbox/screens/chat_screen.dart';
 
 class ChatItem {
+  final String chatId;
   final String name;
   final String message;
   final String time;
@@ -13,6 +14,7 @@ class ChatItem {
   final int unreadCount;
 
   ChatItem({
+    required this.chatId,
     required this.name,
     required this.message,
     required this.time,
@@ -51,6 +53,7 @@ class _InboxScreenState extends State<InboxScreen> {
 
   final List<ChatItem> chatItems = [
     ChatItem(
+      chatId: "chat1",
       name: 'Sarah Johnson',
       message: 'When is my next appointment?',
       time: '10:30 AM',
@@ -59,6 +62,7 @@ class _InboxScreenState extends State<InboxScreen> {
       unreadCount: 3,
     ),
     ChatItem(
+      chatId: "chat2",
       name: 'Mike Smith',
       message: 'Thanks for the great service!',
       time: '9:15 AM',
@@ -138,7 +142,7 @@ class _InboxScreenState extends State<InboxScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ChatScreen(chatItem: item), // Fixed block
+                builder: (context) => ChatScreen(chatItem: item),
               ),
             );
           },
@@ -152,13 +156,19 @@ class _InboxScreenState extends State<InboxScreen> {
       itemCount: callItems.length,
       itemBuilder: (context, index) {
         final item = callItems[index];
-        return CallItemWidget(item: item , onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => CallScreen(name: item.name , avatar: item.avatar,),
-            ),
-          );
-        },);
+        return CallItemWidget(
+          item: item,
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => CallScreen(
+                  name: item.name,
+                  avatar: item.avatar,
+                ),
+              ),
+            );
+          },
+        );
       },
     );
   }
@@ -180,16 +190,18 @@ class ChatItemWidget extends StatelessWidget {
       onTap: onTap,
       child: CustomContainerWdt(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Row(
             children: [
               Stack(
                 children: [
-                  CircleAvatar(
-                    radius: 30,
-                    backgroundImage: NetworkImage(item.avatar),
+                  Hero(
+                    tag: item.avatar,
+                    child: CircleAvatar(
+                      radius: 30,
+                      backgroundImage: NetworkImage(item.avatar),
+                    ),
                   ),
                   if (item.unreadCount > 0)
                     Positioned(
@@ -255,7 +267,8 @@ class ChatItemWidget extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.grey[600],
                         fontSize: 14,
-                        fontWeight: item.unreadCount > 0 ? FontWeight.bold : FontWeight.normal,
+                        fontWeight:
+                            item.unreadCount > 0 ? FontWeight.bold : FontWeight.normal,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -273,8 +286,7 @@ class ChatItemWidget extends StatelessWidget {
 
 class CallItemWidget extends StatelessWidget {
   final CallItem item;
-   final VoidCallback onTap;
-  
+  final VoidCallback onTap;
 
   const CallItemWidget({super.key, required this.item, required this.onTap});
 
@@ -284,7 +296,6 @@ class CallItemWidget extends StatelessWidget {
       onTap: onTap,
       child: CustomContainerWdt(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Row(
