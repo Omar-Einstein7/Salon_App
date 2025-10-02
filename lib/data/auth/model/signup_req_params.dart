@@ -2,8 +2,10 @@ class SignupReqParams {
   final String name;
   final String email;
   final String password;
+  final String confirmPassword;
   final String role;
   final String phoneNumber;
+
   final String? profileImage;
   final Address? address;
   final Location? location;
@@ -18,6 +20,7 @@ class SignupReqParams {
     required this.name,
     required this.email,
     required this.password,
+    required this.confirmPassword,
     required this.role,
     required this.phoneNumber,
     this.profileImage,
@@ -36,6 +39,7 @@ class SignupReqParams {
       'name': name,
       'email': email,
       'password': password,
+      'confirmPassword': confirmPassword,
       'role': role,
       'phoneNumber': phoneNumber,
       'profileImage': profileImage,
@@ -55,6 +59,7 @@ class SignupReqParams {
       name: json['name'] as String,
       email: json['email'] as String,
       password: json['password'] as String,
+      confirmPassword: json['confirmPassword'] as String,
       role: json['role'] as String,
       phoneNumber: json['phoneNumber'] as String,
       profileImage: json['profileImage'] as String?,

@@ -3,12 +3,17 @@ import 'package:salon_app/core/network/dio_clint.dart';
 import 'package:salon_app/data/auth/repo_impl/auth.dart';
 
 import 'package:salon_app/data/auth/sources/auth_api_source.dart';
+import 'package:salon_app/data/local_theme_datasource.dart';
+import 'package:salon_app/data/theme_repository_impl.dart';
 
 import 'package:salon_app/domain/auth/repo/auth.dart';
 
 import 'package:salon_app/domain/auth/usecases/is_logged_in.dart';
 import 'package:salon_app/domain/auth/usecases/logout_usecase.dart';
 import 'package:salon_app/domain/auth/usecases/signup.dart';
+import 'package:salon_app/domain/get_theme_mode.dart';
+import 'package:salon_app/domain/set_theme_mode.dart';
+import 'package:salon_app/domain/theme_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'domain/auth/usecases/signin.dart';
@@ -27,6 +32,7 @@ Future<void> setupServiceLocator() async {
                                                                                                               
   //Repo
   sl.registerSingleton<AuthRepository>(AuthRepositoryImpl());
+  
 
   //Usecases
   sl.registerSingleton<SignupUseCase>(SignupUseCase());
@@ -48,4 +54,17 @@ Future<void> setupServiceLocator() async {
 
 //   sl.registerSingleton<SearchMoviesUsecase>(SearchMoviesUsecase());
 //   sl.registerSingleton<SearchTvUsecase>(SearchTvUsecase());
+
+
+
+//themeing
+//repo
+sl.registerSingleton<ThemeRepository>(ThemeRepositoryImpl());
+//Services
+sl.registerSingleton<LocalThemeDataSource>(LocalThemeDataSourceImpl());
+
+sl.registerSingleton<SetThemeMode>(SetThemeMode());
+sl.registerSingleton<GetThemeMode>(GetThemeMode());
+
+
 }

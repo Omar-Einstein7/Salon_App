@@ -4,7 +4,7 @@ import 'package:salon_app/presentaion/booking/screens/booking_screen.dart';
 import 'package:salon_app/presentaion/home/screens/home_screen.dart';
 import 'package:salon_app/presentaion/home/screens/explore_screen.dart';
 import 'package:salon_app/presentaion/inbox/screens/inbox_screen.dart';
-import 'package:salon_app/presentaion/home/screens/profile_screen.dart';
+import 'package:salon_app/presentaion/profile/screens/profile_screen.dart';
 
 
 class BodyScreen extends StatefulWidget {

@@ -46,7 +46,7 @@ class BubbleSpecialOne extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
         child: CustomPaint(
           painter: _SpecialChatBubbleOne(
-            color: isSender ? AppTheme.primaryOrange : Color(0xff1f272a),
+            color: isSender ? AppTheme.primaryOrange :Theme.of(context).colorScheme.surface,
             alignment: isSender ? Alignment.topRight : Alignment.topLeft,
             tail: tail,
           ),

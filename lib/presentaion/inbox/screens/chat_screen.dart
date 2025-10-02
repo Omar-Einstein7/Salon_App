@@ -166,7 +166,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+      
         elevation: 0,
         leadingWidth: 70,
         leading: _buildLeadingWidget(),

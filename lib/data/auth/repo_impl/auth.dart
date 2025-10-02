@@ -18,15 +18,33 @@ class AuthRepositoryImpl extends AuthRepository {
   Future<Either> signup(
     SignupReqParams params,
   ) async {
-    try {
-      final result = await sl<AuthApiServiceImpl>().signup(params);
-      return result.fold((failure) => Left(failure), (response) async {
-        await _saveAuthData(response);
-        return Right(response);
-      });
-    } catch (e) {
-      return Left('An unexpected error occurred during signup');
-    }
+    var result = await sl<AuthApiServiceImpl>().signup(params);
+    return result.fold(
+      (error) => Left(error),
+      (response) async {
+        try {
+          if (response != null && response['data'] != null) {
+            final data = response['data'];
+            final accessToken = data['accessToken'];
+            final refreshToken = data['refreshToken'];
+            final user = data['user'];
+
+            if (accessToken != null) {
+              final SharedPreferences prefs = await SharedPreferences.getInstance();
+              await Future.wait([
+                prefs.setString(_accessTokenKey, accessToken),
+                if (refreshToken != null) prefs.setString(_refreshTokenKey, refreshToken),
+                if (user != null) prefs.setString(_userKey, json.encode(user)),
+              ]);
+              return Right(response);
+            }
+          }
+          return Left('Invalid response format or missing access token');
+        } catch (e) {
+          return Left('Error saving auth data: $e');
+        }
+      }
+    );
   }
 
   @override

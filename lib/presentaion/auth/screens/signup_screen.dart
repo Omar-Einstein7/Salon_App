@@ -4,7 +4,9 @@ import 'package:iconify_flutter/iconify_flutter.dart' show Iconify;
 import 'package:colorful_iconify_flutter/icons/flat_color_icons.dart'; 
 import 'package:colorful_iconify_flutter/icons/logos.dart';
 import 'package:salon_app/core/config/widgets/custom_button.dart' show CustomButton;
+import 'package:salon_app/presentaion/auth/screens/fill_profile.dart';
 import 'package:salon_app/presentaion/auth/screens/login_screen.dart';
+import 'package:salon_app/core/config/widgets/custom_textfield.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -44,33 +46,11 @@ class _SignupScreenState extends State<SignupScreen> {
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 40),
-                TextFormField(
+                CustomTextfield(
+                   keyboardType: TextInputType.text,
                   controller: _emailController,
-                  decoration: InputDecoration(
-                    labelText: 'Email',
-                    prefixIcon: Icon(Icons.email_outlined, 
-                      color: Theme.of(context).colorScheme.primary),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.outline),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.outline),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.primary, 
-                        width: 2),
-                    ),
-                    filled: true,
-                    fillColor: Theme.of(context).colorScheme.surfaceVariant,
-                    labelStyle: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface),
-                  ),
+                  labelText: 'Email',
+                  prefixIcon: Icons.email_outlined,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your email';
@@ -82,101 +62,46 @@ class _SignupScreenState extends State<SignupScreen> {
                   },
                 ),
                 const SizedBox(height: 16),
-                TextFormField(
+                CustomTextfield( keyboardType: TextInputType.text,
                   controller: _passwordController,
+                  labelText: 'Password',
+                  prefixIcon: Icons.lock_outline,
                   obscureText: _obscureText,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    prefixIcon: Icon(Icons.lock_outline,
-                      color: Theme.of(context).colorScheme.primary),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _obscureText ? Icons.visibility_off : Icons.visibility,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _obscureText = !_obscureText;
-                        });
-                      },
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.outline),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.outline),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.primary, 
-                        width: 2),
-                    ),
-                    filled: true,
-                    fillColor: Theme.of(context).colorScheme.surfaceVariant,
-                    labelStyle: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface),
-                  ),
+                  suffixIcon: _obscureText ? Icons.visibility_off : Icons.visibility,
+                  onSuffixIconPressed: () {
+                    setState(() {
+                      _obscureText = !_obscureText;
+                    });
+                  },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your password';
                     }
                     if (value.length < 6) {
-                      return 'Password must be at least 6 characters';
+                      return 'Password must be at least 6 characters long';
                     }
                     return null;
                   },
                 ),
-                  const SizedBox(height: 16),
-                       TextFormField(
-                  controller: _passwordController,
+                const SizedBox(height: 16),
+                CustomTextfield(
+                   keyboardType: TextInputType.text,
+                  controller: _passwordConfirmController,
+                  labelText: 'Confirm Password',
+                  prefixIcon: Icons.lock_outline,
                   obscureText: _obscureText,
-                  decoration: InputDecoration(
-                    labelText: 'Confirm Password',
-                    prefixIcon: Icon(Icons.lock_outline,
-                      color: Theme.of(context).colorScheme.primary),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _obscureText ? Icons.visibility_off : Icons.visibility,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _obscureText = !_obscureText;
-                        });
-                      },
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.outline),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.outline),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.primary, 
-                        width: 2),
-                    ),
-                    filled: true,
-                    fillColor: Theme.of(context).colorScheme.surfaceVariant,
-                    labelStyle: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface),
-                  ),
+                  suffixIcon: _obscureText ? Icons.visibility_off : Icons.visibility,
+                  onSuffixIconPressed: () {
+                    setState(() {
+                      _obscureText = !_obscureText;
+                    });
+                  },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your password';
+                      return 'Please confirm your password';
                     }
-                    if (value.length < 6) {
-                      return 'Password must be at least 6 characters';
+                    if (value != _passwordController.text) {
+                      return 'Passwords do not match';
                     }
                     return null;
                   },
@@ -209,7 +134,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   txt: 'Sign Up',
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      // Handle sign in
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>  FillProfileScreen(email: _emailController.text , password: _passwordController.text,)));
                     }
                   },
                 ),
