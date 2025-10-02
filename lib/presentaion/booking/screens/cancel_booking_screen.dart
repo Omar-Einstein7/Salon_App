@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:salon_app/core/config/widgets/custom_appbar_wdt.dart';
 import 'package:salon_app/core/config/widgets/custom_button.dart';
+import 'package:salon_app/presentaion/booking/widgets/payment_option_wdgt.dart';
 
 class CancelBookingScreen extends StatefulWidget {
   const CancelBookingScreen({super.key});
@@ -26,46 +27,59 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            _buildPaymentOption(
+            PaymentOptionWdgt(
+              
               icon: Icons.apple,
               title: 'Apple Pay',
               index: 0,
+              groupValue: selectedPaymentMethod,
+              onChanged: (value) {
+                setState(() {
+                  selectedPaymentMethod = value;
+                });
+              },
             ),
-            _buildPaymentOption(
+            PaymentOptionWdgt(
               icon: Icons.android,
               title: 'Google Pay',
               index: 1,
+              groupValue: selectedPaymentMethod,
+              onChanged: (value) {
+                setState(() {
+                  selectedPaymentMethod = value;
+                });
+              },
             ),
-            _buildPaymentOption(icon: Icons.payment, title: 'PayPal', index: 2),
-            _buildPaymentOption(
+            PaymentOptionWdgt(
+              icon: Icons.payment,
+              title: 'PayPal',
+              index: 2,
+              groupValue: selectedPaymentMethod,
+              onChanged: (value) {
+                setState(() {
+                  selectedPaymentMethod = value;
+                });
+              },
+            ),
+            PaymentOptionWdgt(
               icon: Icons.credit_card,
               title: 'Master Card',
               index: 3,
+              groupValue: selectedPaymentMethod,
+              onChanged: (value) {
+                setState(() {
+                  selectedPaymentMethod = value;
+                });
+              },
             ),
             const SizedBox(height: 20),
             Container(
               margin: const EdgeInsets.symmetric(vertical: 8),
-              child: ElevatedButton.icon(
+              child: CustomButton(
+                txt: 'Add New Card',
                 onPressed: () {
                   // Handle add new card
                 },
-                label: const Text(
-                  'Add New Card',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.orange,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 16,
-                  ),
-                  backgroundColor: Colors.orange.withOpacity(0.2),
-                  shadowColor: Colors.white.withOpacity(0.15),
-                ),
               ),
             ),
             const Spacer(),
@@ -76,15 +90,16 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
                 children: [
                   Text(
                     'Paid:',
-                    style: TextStyle(fontSize: 16, color: Colors.grey),
+                    style: TextStyle(fontSize: 16),
                   ),
                   Text(
                     '\$14.00',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.grey,
+                     
                     ),
+
                   ),
                   SizedBox(width: 5),
                   Text(
@@ -96,7 +111,7 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                   
                     ),
                   ),
                 ],
@@ -179,40 +194,5 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
     );
   }
 
-  Widget _buildPaymentOption({
-    required IconData icon,
-    required String title,
-    required int index,
-  }) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      child: ListTile(
-        leading: Icon(icon, size: 32),
-        title: Text(title),
-        trailing: Radio<int>(
-          value: index,
-          groupValue: selectedPaymentMethod,
-          onChanged: (int? value) {
-            setState(() {
-              selectedPaymentMethod = value;
-            });
-          },
-          activeColor: Colors.orange,
-          fillColor: MaterialStateProperty.resolveWith<Color>((
-            Set<MaterialState> states,
-          ) {
-            if (states.contains(MaterialState.selected)) {
-              return Colors.orange;
-            }
-            return Colors.orange;
-          }),
-        ),
-        onTap: () {
-          setState(() {
-            selectedPaymentMethod = index;
-          });
-        },
-      ),
-    );
-  }
+
 }

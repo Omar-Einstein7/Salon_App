@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:salon_app/core/config/widgets/custom_appbar_wdt.dart';
 import 'package:salon_app/core/config/widgets/custom_container_wdt.dart';
 import 'package:salon_app/presentaion/booking/screens/cancel_booking_screen.dart';
 import 'package:salon_app/presentaion/details/widgets/filter_chip.dart';
@@ -126,10 +127,9 @@ class _BookingScreenState extends State<BookingScreen> {
         .toList();
 
     return Scaffold(
-      appBar: AppBar(
+    appBar: IOSAppBar(
         title: const Text('Book Appointment'),
-        centerTitle: true,
-        elevation: 0,
+        context: context,
       ),
       body: SingleChildScrollView(
         child: Column(

@@ -1,67 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:salon_app/core/config/widgets/custom_appbar_wdt.dart';
 import 'package:salon_app/core/config/widgets/custom_button.dart';
+import 'package:salon_app/presentaion/profile/widgets/profile_option.dart';
 
 class SecurityScreen extends StatefulWidget {
   const SecurityScreen({super.key});
-
   @override
   State<SecurityScreen> createState() => _SecurityScreenState();
 }
-
 class _SecurityScreenState extends State<SecurityScreen> {
   bool _faceId = true;
   bool _rememberMe = false;
   bool _touchId = true;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: IOSAppBar(
         title: const Text('Security'),
-        centerTitle: true,
-        elevation: 0,
+        context: context,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Column(
-          children: [
+         
             // Security toggles
-            _buildSecurityCard(
+   
               children: [
-                _buildSwitchTile(
+                ProfileOptionTile(
                   title: 'Face ID',
-                  value: _faceId,
-                  onChanged: (v) => setState(() => _faceId = v),
+                  trailing: Switch.adaptive(
+                    value: _faceId,
+                    onChanged: (v) => setState(() => _faceId = v),
+                    applyCupertinoTheme: true,
+                  ),
                 ),
-                _divider(),
-                _buildSwitchTile(
+                ProfileOptionTile(
                   title: 'Remember Me',
-                  value: _rememberMe,
-                  onChanged: (v) => setState(() => _rememberMe = v),
+                  trailing: Switch.adaptive(
+                    value: _rememberMe,
+                    onChanged: (v) => setState(() => _rememberMe = v),
+                    applyCupertinoTheme: true,
+                  ),
                 ),
-                _divider(),
-                _buildSwitchTile(
+                ProfileOptionTile(
                   title: 'Touch ID',
-                  value: _touchId,
-                  onChanged: (v) => setState(() => _touchId = v),
+                  trailing: Switch.adaptive(
+                    value: _touchId,
+                    onChanged: (v) => setState(() => _touchId = v),
+                    applyCupertinoTheme: true,
+                  ),
                 ),
-              ],
-            ),
 
-            const SizedBox(height: 16),
+                const SizedBox(height: 16),
 
-            // Change password
-            _buildSecurityCard(
-              children: [
-                ListTile(
-                  title: const Text('Change Password'),
-                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                ProfileOptionTile(
+                  title: 'Google Authanticator',
                   onTap: () {
                     // TODO: navigate to change-password screen
                   },
                 ),
-              ],
-            ),
 
             const Spacer(),
 
@@ -91,8 +88,10 @@ class _SecurityScreenState extends State<SecurityScreen> {
     return ListTile(
       title: Text(title),
       trailing: Switch.adaptive(
+    
         value: value,
         onChanged: onChanged,
+        applyCupertinoTheme: true,
       ),
     );
   }

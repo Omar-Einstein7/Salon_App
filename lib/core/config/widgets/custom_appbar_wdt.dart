@@ -7,7 +7,11 @@ class IOSAppBar extends AppBar {
     super.title,
     required BuildContext context,
     Widget? leading,
+    bool centerTitle = true,
   }) : super(
-          leading: leading,
+          leading: leading ,
+          centerTitle: centerTitle,
+          scrolledUnderElevation: 0,
+          elevation: 0,
         );
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ProfileOptionTile extends StatelessWidget {
-  final IconData icon;
+  final IconData? icon;
+  final Color? color;
   final String title;
   final VoidCallback? onTap;
   final Widget? trailing;
@@ -9,7 +10,8 @@ class ProfileOptionTile extends StatelessWidget {
 
   const ProfileOptionTile({
     super.key,
-    required this.icon,
+    this.icon,
+      this.color,
     required this.title,
     this.onTap,
     this.trailing,
@@ -19,7 +21,7 @@ class ProfileOptionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(icon, color: Colors.blue),
+      leading: icon != null ? Icon(icon , color: color,) : null,
       title: Text(
         title,
         style: TextStyle(

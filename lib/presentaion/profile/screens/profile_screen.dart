@@ -8,6 +8,8 @@ import 'package:salon_app/domain/theme_entity.dart';
 import 'package:salon_app/presentaion/auth/screens/login_screen.dart';
 
 import 'package:salon_app/presentaion/profile/screens/edit_profile_screen.dart';
+import 'package:salon_app/presentaion/profile/screens/invite_friends_screen.dart';
+import 'package:salon_app/presentaion/profile/screens/language_screen.dart';
 import 'package:salon_app/presentaion/profile/screens/notification_screen.dart';
 import 'package:salon_app/presentaion/profile/screens/privacy_policy_screen.dart';
 import 'package:salon_app/presentaion/profile/screens/secuirty_screen.dart';
@@ -26,14 +28,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("profile")),
+      appBar: IOSAppBar(
+        context: context,
+        title: const Text("Profile"),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(5.0),
         child: Column(
           children: [
-            const CircleAvatar(
-              radius: 50,
-              backgroundImage: AssetImage('assets/profile_placeholder.jpg'),
+            Stack(
+              alignment: Alignment.bottomRight,
+              children: [
+                const CircleAvatar(
+                  radius: 50,
+                  backgroundImage: NetworkImage('https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150'),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    AppNavigator.push(context, EditProfileScreen());
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.edit,
+                      size: 20,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 5),
             const Text(
@@ -74,7 +101,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ProfileOptionTile(
               icon: Icons.translate_outlined,
               title: 'Language',
-              onTap: () {},
+              onTap: () {
+                 AppNavigator.push(context, LanguageScreen());
+              },
             ),
             ProfileOptionTile(
               icon: Icons.nightlight_round_outlined,
@@ -103,11 +132,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ProfileOptionTile(
               icon: Icons.group_add_outlined,
               title: 'Invite Friends',
-              onTap: () {},
+              onTap: () {
+                   AppNavigator.push(context, InviteFriendsScreen());
+              },
             ),
             ProfileOptionTile(
               icon: Icons.logout,
               title: 'Logout',
+              color: Colors.red,
               onTap: () {
                 showModalBottomSheet(
                   context: context,

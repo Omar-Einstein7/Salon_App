@@ -8,52 +8,57 @@ class NotificationProfileScreen extends StatefulWidget {
 }
 
 class _NotificationProfileScreenState extends State<NotificationProfileScreen> {
-  final List<bool> _switches = List.generate(10, (_) => false);
+  final Map<String, bool> _settings = {
+    'General Notification': true,
+    'Sound': true,
+    'Vibrate': true,
+    'Special Offers': false,
+    'Promo & Discount': false,
+    'Payments': true,
+    'Cashback': false,
+    'App Updates': true,
+    'New Service Available': false,
+    'New Tips Available': false,
+  };
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         elevation: 0,
-   
         centerTitle: true,
         title: const Text(
           'Notifications',
           style: TextStyle(
-
             fontWeight: FontWeight.w600,
             fontSize: 18,
           ),
         ),
-        
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: ListView.separated(
-          itemCount: 10,
+          itemCount: _settings.length,
           separatorBuilder: (_, __) => const SizedBox(height: 12),
           itemBuilder: (context, index) {
+            final key = _settings.keys.elementAt(index);
             return ListTile(
-        
-            
               leading: const Icon(
                 Icons.notifications_outlined,
                 color: Colors.indigo,
               ),
               title: Text(
-                'Notification ${index + 1}',
+                key,
                 style: const TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 16,
                 ),
               ),
               trailing: Switch(
-            
-                value: _switches[index],
+                value: _settings[key]!,
                 onChanged: (val) {
                   setState(() {
-                    _switches[index] = val;
+                    _settings[key] = val;
                   });
                 },
               ),

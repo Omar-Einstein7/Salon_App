@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:salon_app/core/config/widgets/custom_appbar_wdt.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
   const PrivacyPolicyScreen({super.key});
@@ -6,23 +7,21 @@ class PrivacyPolicyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black87),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+   
+      appBar: IOSAppBar(
+        
+        context: context,
         title: const Text(
           'Privacy Policy',
           style: TextStyle(
-            color: Colors.black87,
             fontWeight: FontWeight.w600,
             fontSize: 20,
           ),
         ),
-        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -59,24 +58,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               'You have the right to access, update, or delete your personal information at any time by contacting us through the app.',
             ),
             const SizedBox(height: 32),
-            Center(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurpleAccent,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                ),
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text(
-                  'I Understand',
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ),
-              ),
-            ),
-            const SizedBox(height: 24),
+        
           ],
         ),
       ),
@@ -91,7 +73,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
         style: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w600,
-          color: Colors.deepPurpleAccent,
+        
         ),
       ),
     );
@@ -103,7 +85,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
       style: TextStyle(
         fontSize: 15,
         height: 1.5,
-        color: Colors.grey[800],
+        
       ),
     );
   }
@@ -119,7 +101,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
             child: Icon(
               Icons.circle,
               size: 6,
-              color: Colors.deepPurpleAccent,
+            
             ),
           ),
           Expanded(
@@ -128,7 +110,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               style: TextStyle(
                 fontSize: 15,
                 height: 1.5,
-                color: Colors.grey[800],
+             
               ),
             ),
           ),
