@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:salon_app/myapp.dart';
 import 'package:salon_app/service_locator.dart';
 
@@ -15,7 +16,8 @@ class MyHttpOverrides extends HttpOverrides {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  setupServiceLocator();
+  await setupServiceLocator();
+  await GetIt.instance.allReady(); // Ensure all async singletons are ready
   HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
 }

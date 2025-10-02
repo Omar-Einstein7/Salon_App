@@ -21,24 +21,21 @@ import 'domain/auth/usecases/signin.dart';
 final sl = GetIt.instance;
 
 Future<void> setupServiceLocator() async {
-  final sharedPreferences = await SharedPreferences.getInstance();
-  sl.registerSingleton<SharedPreferences>(sharedPreferences);
+  // Initialize core services first
+  sl.registerSingletonAsync<SharedPreferences>(() => SharedPreferences.getInstance());
+  sl.registerLazySingleton<DioClient>(() => DioClient());
+
+  // Register services
+  sl.registerLazySingleton<AuthService>(() => AuthApiServiceImpl());
   
-  sl.registerSingleton<DioClient>(DioClient());
+  // Register repositories
+  sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl());
 
-  //Services
-  sl.registerSingleton<AuthService>(AuthApiServiceImpl());
-
-                                                                                                              
-  //Repo
-  sl.registerSingleton<AuthRepository>(AuthRepositoryImpl());
-  
-
-  //Usecases
-  sl.registerSingleton<SignupUseCase>(SignupUseCase());
-  sl.registerSingleton<SigninUseCase>(SigninUseCase());
-  sl.registerSingleton<IsLoggedInUseCase>(IsLoggedInUseCase());
-  sl.registerSingleton<LogoutUseCase>(LogoutUseCase());
+  // Register use cases lazily
+  sl.registerLazySingleton<SignupUseCase>(() => SignupUseCase());
+  sl.registerLazySingleton<SigninUseCase>(() => SigninUseCase());
+  sl.registerLazySingleton<IsLoggedInUseCase>(() => IsLoggedInUseCase());
+  sl.registerLazySingleton<LogoutUseCase>(() => LogoutUseCase());
   // sl.registerSingleton<GetTrandingMoviesUseCases>(GetTrandingMoviesUseCases());
   // sl.registerSingleton<GetNowPlayingMoviesUseCase>(
   //     GetNowPlayingMoviesUseCase());
@@ -57,14 +54,11 @@ Future<void> setupServiceLocator() async {
 
 
 
-//themeing
-//repo
-sl.registerSingleton<ThemeRepository>(ThemeRepositoryImpl());
-//Services
-sl.registerSingleton<LocalThemeDataSource>(LocalThemeDataSourceImpl());
-
-sl.registerSingleton<SetThemeMode>(SetThemeMode());
-sl.registerSingleton<GetThemeMode>(GetThemeMode());
+// Theme related registrations
+sl.registerLazySingleton<ThemeRepository>(() => ThemeRepositoryImpl());
+sl.registerLazySingleton<LocalThemeDataSource>(() => LocalThemeDataSourceImpl());
+sl.registerLazySingleton<SetThemeMode>(() => SetThemeMode());
+sl.registerLazySingleton<GetThemeMode>(() => GetThemeMode());
 
 
 }

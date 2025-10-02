@@ -10,6 +10,7 @@ import 'package:salon_app/presentaion/auth/screens/login_screen.dart';
 import 'package:salon_app/presentaion/profile/screens/edit_profile_screen.dart';
 import 'package:salon_app/presentaion/profile/screens/notification_screen.dart';
 import 'package:salon_app/presentaion/profile/screens/privacy_policy_screen.dart';
+import 'package:salon_app/presentaion/profile/screens/secuirty_screen.dart';
 
 import 'package:salon_app/presentaion/profile/widgets/profile_option.dart';
 import 'package:salon_app/presentaion/theme/cubit/theme_cubit.dart';
@@ -22,7 +23,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +56,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               icon: Icons.notifications_none_outlined,
               title: 'Notifications',
               onTap: () {
-                       AppNavigator.push(context, NotificationProfileScreen());
+                AppNavigator.push(context, NotificationProfileScreen());
               },
             ),
             ProfileOptionTile(
@@ -67,7 +67,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ProfileOptionTile(
               icon: Icons.lock_outline,
               title: 'Security',
-              onTap: () {},
+              onTap: () {
+                AppNavigator.push(context, SecurityScreen());
+              },
             ),
             ProfileOptionTile(
               icon: Icons.translate_outlined,
@@ -79,13 +81,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               title: 'Dark Mode',
               trailing: BlocBuilder<ThemeCubit, AppThemeMode>(
                 builder: (context, state) {
-                    final isDark = state == AppThemeMode.dark;
+                  final isDark = state == AppThemeMode.dark;
                   return Switch(
                     value: isDark,
-                      onChanged: (value) {
-                    context.read<ThemeCubit>().changeTheme(
-                        value ? AppThemeMode.dark : AppThemeMode.light);
-                  },
+                    onChanged: (value) {
+                      context.read<ThemeCubit>().changeTheme(
+                        value ? AppThemeMode.dark : AppThemeMode.light,
+                      );
+                    },
                   );
                 },
               ),
@@ -94,7 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               icon: Icons.policy_outlined,
               title: 'Privacy Policy',
               onTap: () {
-                      AppNavigator.push(context, PrivacyPolicyScreen());
+                AppNavigator.push(context, PrivacyPolicyScreen());
               },
             ),
             ProfileOptionTile(
@@ -110,10 +113,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   context: context,
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(24),
+                    ),
                   ),
                   builder: (_) => Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 20,
+                    ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -126,16 +134,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             borderRadius: BorderRadius.circular(2),
                           ),
                         ),
-                        const Icon(Icons.logout, size: 48, color: Colors.redAccent),
+                        const Icon(
+                          Icons.logout,
+                          size: 48,
+                          color: Colors.redAccent,
+                        ),
                         const SizedBox(height: 12),
                         const Text(
                           'Logout',
-                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         const SizedBox(height: 8),
                         Text(
                           'Are you sure you want to logout?',
-                          style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey[600],
+                          ),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 24),
@@ -145,7 +163,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               child: OutlinedButton(
                                 onPressed: () => Navigator.pop(context),
                                 style: OutlinedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(vertical: 14),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 14,
+                                  ),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
@@ -161,10 +181,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               child: ElevatedButton(
                                 onPressed: () async {
                                   Navigator.pop(context);
-                                  final result = await sl<LogoutUseCase>().call();
+                                  final result = await sl<LogoutUseCase>()
+                                      .call();
                                   result.fold(
                                     (error) {
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
                                         SnackBar(content: Text(error)),
                                       );
                                     },
@@ -181,7 +204,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.redAccent,
                                   foregroundColor: Colors.white,
-                                  padding: const EdgeInsets.symmetric(vertical: 14),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 14,
+                                  ),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),

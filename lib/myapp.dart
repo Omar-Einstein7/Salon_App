@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
             data: state == AppThemeMode.dark
                 ? AppTheme.darkTheme
                 : AppTheme.lightTheme,
-            duration: const Duration(milliseconds: 1000),
+            duration: const Duration(milliseconds: 300),
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
               title: 'Salon app',
