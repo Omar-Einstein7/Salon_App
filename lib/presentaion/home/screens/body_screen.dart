@@ -9,7 +9,6 @@ import 'package:salon_app/presentaion/profile/screens/profile_screen.dart';
 
 class BodyScreen extends StatefulWidget {
   const BodyScreen({super.key});
-
   @override
   State<BodyScreen> createState() => _BodyScreenState();
 }

@@ -9,7 +9,7 @@ class IOSAppBar extends AppBar {
     Widget? leading,
     bool centerTitle = true,
   }) : super(
-          leading: leading ,
+          leading: leading  ,
           centerTitle: centerTitle,
           scrolledUnderElevation: 0,
           elevation: 0,
